@@ -1,6 +1,5 @@
 `timescale 1ns / 1ps
 
-
 module control_unit(
 	input clk, Z,
 	input [15:0] instruction,
@@ -14,26 +13,28 @@ module control_unit(
     localparam
     FETCH1 = 8'd1, FETCH2 = 8'd2, FETCH3 = 8'd3,
     NOP = 8'd4,
-    ADD = 8'd5,
-    MUL = 8'd6,
-    SUB = 8'd7,
-    LODAC1 = 8'd8, LODAC2 = 8'd9, LODAC3 = 8'd10, LODAC4 = 8'd11, LODAC5 = 8'12,
-    LDACAR1 = 8'd13, LDACAR2 = 8'd14,
-    STOAC1 = 8'd15, STOSC2 = 8'd16,
-    MVAC = 8'd17,
-    MOVREG = 8'd18,
-    RST = 8'd19,
-    JUMP1 = 8'd20, JUMP2 = 8'd20, JUMP3 = 8'd21,
-    JUMPZN = 8'd22,
-    JUMPZY1 = 8'd23, JUMPZY2 = 8'd24, JUMPZY3 = 8'd25,
-    JMNZY1 = 8'd26, JMNZY2 = 8'd27, JMNZY3 = 8'd28,
-    INCAC = 8'd29,
-    INCR = 8'd30,
-    INCR3 = 8'd31,
-    SFTR = 8'd32,
-    SFTL = 8'd33,
-    MOVAR = 8'd34,
-    ENDOP = 8'd35;
+    ADD1 = 8'd5, ADD2 = 8'd6,
+    MUL1 = 8'd7, MUL2 = 8'd8,
+    SUB1 = 8'd9, SUB2 = 8'd10,
+    LODAC1 = 8'd11, LODAC2 = 8'd12, LODAC3 = 8'd13, LODAC4 = 8'd14, LODAC5 = 8'15,
+    LDACAR1 = 8'd16, LDACAR2 = 8'd17,
+    STOAC1 = 8'd18, STOAC2 = 8'd19,
+    MVAC = 8'd20,
+    MOVREG = 8'd21,
+    CLAC1 = 8'd22, CLAC2 = 8'd23,
+    JUMP1 = 8'd24, JUMP2 = 8'd25, JUMP3 = 8'd26,
+    JUMPZ = 8'd27,
+    JUMPZN = 8'd28,
+    JMNZ = 8'd29,
+    JMNZN = 8'd30,
+    INCAC = 8'd31,
+    INCR = 8'd32,
+    INCR3 = 8'd33,
+    SFTR1 = 8'd34, SFTR2 = 8'd35,
+    SFTL1 = 8'd36, SFTL1 = 8'd37,
+    MOVAR1 = 8'd38,
+    MOVAR2 = 8'd39,
+    ENDOP = 8'd40;
 
     localparam
     NO_W = 17'b0_0000_0000_0000_0000,
@@ -92,6 +93,7 @@ module control_unit(
     SUB = 3'd3,
     SFTR = 3'd4,
     SFTL = 3'd5;
+    ZERO = 3'd6;
 
     reg [5:0] CONTROL_COMMAND;
     reg [5:0] NEXT_COMMAND = FETCH1;
@@ -246,7 +248,7 @@ module control_unit(
         
         LODAC4:
 			begin
-                write_enable <= DR_W; //Assuming data will be available here
+                write_enable <= DR_W; //Assuming data will be available by next Positive egdge
                 read_enable <= DATA_MEM_R;
                 increment <= NO_I;
                 alu <= NO_OP;
@@ -263,5 +265,395 @@ module control_unit(
                 finish <= 0;
                 NEXT_COMMAND <= FETCH1;
 			end
+        
+        LDACAR1:
+			begin
+                write_enable <= DR_W;
+                read_enable <= DATA_MEM_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= LDACAR2;
+			end
+
+        LDACAR2:
+			begin
+                write_enable <= AC_W;
+                read_enable <= DR_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= FETCH1;
+			end
+
+        STOAC1:
+			begin
+                write_enable <= DR_W;
+                read_enable <= AC_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= STOAC2;
+			end
+
+        STOAC2:
+			begin
+                write_enable <= DATA_MEM_W;
+                read_enable <= DR_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= FETCH1;
+			end
+
+        MVAC:
+            begin
+
+                case (instruction[2:0])
+                    1:
+                        begin
+                            write_enable <= X_W;
+                        end
+                    2:
+                        begin
+                            write_enable <= Y_W;
+                        end
+                    3:
+                        begin
+                            write_enable <= Z_W;
+                        end
+                    4:
+                        begin
+                            write_enable <= STXY_W;
+                        end
+                    5:
+                        begin
+                            write_enable <= STYZ_W;
+                        end
+                    6:
+                        begin
+                            write_enable <= STXZ_W;
+                        end
+                    7:
+                        begin
+                            write_enable <= R_W;
+                        end
+                    8:
+                        begin
+                            write_enable <= R1_W;
+                        end
+                    9:
+                        begin
+                            write_enable <= R2_W;
+                        end
+                    10:
+                        begin
+                            write_enable <= R3_W;
+                        end
+                    11:
+                        begin
+                            write_enable <= DR_W;
+                        end
+                endcase
+
+                read_enable <= AC_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= FETCH1;
+			end
+        
+        MOVREG:
+            begin
+                write_enable <= AC_W;
+
+                case (instruction[2:0])
+                    1:
+                        begin
+                            read_enable <= X_R;
+                        end
+                    2:
+                        begin
+                            read_enable <= Y_R;
+                        end
+                    3:
+                        begin
+                            read_enable <= Z_R;
+                        end
+                    4:
+                        begin
+                            read_enable <= STXY_R;
+                        end
+                    5:
+                        begin
+                            read_enable <= STYZ_R;
+                        end
+                    6:
+                        begin
+                            read_enable <= STXZ_R;
+                        end
+                    7:
+                        begin
+                            read_enable <= R_R;
+                        end
+                    8:
+                        begin
+                            read_enable <= R1_R;
+                        end
+                    9:
+                        begin
+                            read_enable <= R2_R;
+                        end
+                    10:
+                        begin
+                            read_enable <= R3_R;
+                        end
+                    11:
+                        begin
+                            read_enable <= DR_R;
+                        end
+                endcase
+
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= FETCH1;
+			end
+
+        CLAC1:
+            begin
+                write_enable <= NO_W;
+                read_enable <= NO_R;
+                increment <= NO_I;
+                alu <= ZERO;
+                finish <= 0;
+                NEXT_COMMAND <= CLAC2;
+            end
+
+        CLAC2:
+            begin
+                write_enable <= ALU_AC_W;
+                read_enable <= NO_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= FETCH1;
+            end
+        
+        JUMP1:
+            begin
+                write_enable <= NO_W;
+                read_enable <= INS_MEM_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= JUMP2;
+            end
+        JUMP2:
+            begin
+                write_enable <= IR_W;
+                read_enable <= INS_MEM_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= JUMP3;
+            end
+
+        JUMP3:
+            begin
+                write_enable <= IR_PC_W;
+                read_enable <= NO_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= JUMP3;
+            end
+        
+        JUMPZ:
+            begin
+                write_enable <= NO_W;
+                read_enable <= NO_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= (Z) ? JUMPZN: JUMP;
+            end
+        
+        JUMPZN:
+            begin
+                write_enable <= NO_W;
+                read_enable <= NO_R;
+                increment <= PC_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= FETCH1;
+            end
+        
+        JMNZ:
+            begin
+                write_enable <= NO_W;
+                read_enable <= NO_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= (Z) ? JUMP: JMNZN;
+            end
+        
+        JMNZN:
+            begin
+                write_enable <= NO_W;
+                read_enable <= NO_R;
+                increment <= PC_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= FETCH1;
+            end
+
+        INCAC:
+            begin
+                write_enable <= NO_W;
+                read_enable <= NO_R;
+                increment <= AC_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= FETCH1;
+            end
+        
+        INCR:
+            begin
+                write_enable <= NO_W;
+                read_enable <= NO_R;
+                increment <= R_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= FETCH1;
+            end
+
+        INCR3:
+            begin
+                write_enable <= NO_W;
+                read_enable <= NO_R;
+                increment <= R3_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= FETCH1;
+            end
+        
+        SFTR1:
+            begin
+                write_enable <= NO_W;
+                read_enable <= NO_R;
+                increment <= NO_I;
+                alu <= SFTR;
+                finish <= 0;
+                NEXT_COMMAND <= SFTR2;
+            end
+
+        SFTR2:
+            begin
+                write_enable <= ALU_AC_W;
+                read_enable <= NO_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= FETCH1;
+            end
+
+        SFTL1:
+            begin
+                write_enable <= NO_W;
+                read_enable <= NO_R;
+                increment <= NO_I;
+                alu <= SFTR;
+                finish <= 0;
+                NEXT_COMMAND <= SFTL2;
+            end
+
+        SFTL2:
+            begin
+                write_enable <= ALU_AC_W;
+                read_enable <= NO_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= FETCH1;
+            end
+
+        MOVAR1:
+            begin
+                write_enable <= AR_W;
+
+                case (instruction[2:0])
+                    1:
+                        begin
+                            read_enable <= X_R;
+                        end
+                    2:
+                        begin
+                            read_enable <= Y_R;
+                        end
+                    3:
+                        begin
+                            read_enable <= Z_R;
+                        end
+                    4:
+                        begin
+                            read_enable <= STXY_R;
+                        end
+                    5:
+                        begin
+                            read_enable <= STYZ_R;
+                        end
+                    6:
+                        begin
+                            read_enable <= STXZ_R;
+                        end
+                    7:
+                        begin
+                            read_enable <= R_R;
+                        end
+                    8:
+                        begin
+                            read_enable <= R1_R;
+                        end
+                    9:
+                        begin
+                            read_enable <= R2_R;
+                        end
+                    10:
+                        begin
+                            read_enable <= R3_R;
+                        end
+                    11:
+                        begin
+                            read_enable <= DR_R;
+                        end
+                endcase
+
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= (instruction[2:0] == 4 || instruction[2:0] == 6) ? MVAR1: FETCH1;
+			end
+
+        MVAR2
+            begin
+                write_enable <= NO_W;
+                read_enable <= NO_R;
+                increment <= (instruction[2:0] == 4) ? STXY_I: STXZ_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= FETCH1;
+            end
+        
+        ENDOP
+            begin
+                write_enable <= NO_W;
+                read_enable <= NO_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 1;
+                NEXT_COMMAND <= ENDOP;
+            end
     endcase
 end module

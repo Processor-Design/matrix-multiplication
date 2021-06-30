@@ -1,0 +1,121 @@
+
+RST, ALL
+// Add logic to find output end
+INCR3
+LODAC //Load X
+16’0
+MVAC, X
+LODAC //Load Y
+16’1
+MVAC, Y
+LODAC //Load Z
+16’2
+MVAC, Z
+LODAC //Load M1 start -1
+16’3
+SFTL
+MVAC, R2
+LODAC //Load M1 start -2
+16’4
+ADD, R2
+MVAC, STXY
+LODAC //Load M2 start -1
+16’5
+SFTL
+MVAC, R2
+LODAC //Load M2 start -2
+16’6
+ADD, R2
+MVAC, STYZ
+LODAC //Load M3 start -1
+16’7
+SFTL
+MVAC, R2
+LODAC //Load M1 start -2
+16’8
+ADD, R2
+MVAC, STXZ
+
+1. MOVAR, STXY // ( Inc STXY by 1) 
+MOVREG, DR
+MVAC, R1
+MOVAR, STYZ 
+MOVREG, DR
+MUL
+ADD, R2
+MVAC, R2 
+MOVREG, Z //( inc STYZ by Z)
+MVAC, R1
+MOVREG, STYZ
+ADD, R2
+MVAC, STYZ
+
+INCR // check whether one element is done
+MOVREG, Y
+SUB (R)
+JUMPZ
+3
+JUMP // One Multiplication Done
+1
+
+
+3. MOVREG, R3
+MVAC, R
+MOVREG, Z
+SUB (R)
+JUMPNZ
+2
+LODAC
+Address M3 END1
+SFTL
+MVAC R
+LODAC
+Address M3 END2
+ADD, R
+MVAC, R
+MOVREG, STXZ
+SUB (R)
+JUMPZ
+4
+MVREG, R2
+MOVAR, STXZ ( Inc STXZ by 1)
+CLAC ( Added after removing RST, R3)
+MVAC, R3
+INCR3
+STOAC
+LODAC //Load M2 Start1
+16’5
+SFTL
+MVAC R
+LODAC //Load M2 Start2
+16’6
+MVAC, STYZ
+JUMP
+1
+
+2. MVREG, R2
+MOVAR, STXZ ( Inc STXZ by 1)
+INCR3
+STOAC
+MOVREG, Y
+MVAC, R
+MOVREG, STXY //Jump to next Output Element
+SUB (R)
+MVAC, STXY
+MOVREG, Z
+MVAC, R1 (R might need MUL)
+MOVREG, Y
+MUL
+MVAC, R
+MOVEREG, STYZ
+SUB (R)
+INCAC
+MVAC, STYZ
+Set XTYZ to next column, first element
+JUMP 
+1
+
+4. MVREG, R2
+MOVAR, STXZ ( Inc STXZ by 1)
+STOAC
+ENDOP

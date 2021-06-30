@@ -7,7 +7,7 @@ module control_unit(
 
 	output reg [16:0] write_enable,
     output reg [4:0] read_enable,
-	output reg [5:0] increment,
+	output reg [6:0] increment,
 	output reg [2:0] alu
     );
 
@@ -19,7 +19,7 @@ MUL1 = 6'd7, MUL2 = 6'd8,
 SUB1 = 6'd9, SUB2 = 6'd10,
 LODAC1 = 6'd11, LODAC2 = 6'd12, LODAC3 = 6'd13, LODAC4 = 6'd14, LODAC5 = 6'd15,
 LDACAR1 = 6'd16, LDACAR2 = 6'd17,
-STOAC1 = 6'd18, STOAC2 = 6'd19,
+STOAC1 = 6'd18, STOAC2 = 6'd19, STOAC3 = 6'd41, STOAC4 = 6'd42, STOAC5 = 6'd43, STOAC6 = 6'd44,
 MVAC = 6'd20,
 MOVREG = 6'd21,
 CLAC1 = 6'd22, CLAC2 = 6'd23,
@@ -78,13 +78,14 @@ R3_R = 5'd16,
 DR_R = 5'd17;
 
 localparam
-NO_I = 6'b00_0000,
-PC_I = 6'b00_0001,
-AC_I = 6'd00_0010,
-STXY_I = 6'd00_0100,
-STXZ_I = 6'd00_1000,
-R_I = 6'd01_0000,
-R3_I = 6'd10_0000;
+NO_I = 7'b000_0000,
+PC_I = 7'b000_0001,
+AC_I = 7'b000_0010,
+STXY_I = 7'b000_0100,
+STXZ_I = 7'b000_1000,
+R_I = 7'b001_0000,
+R3_I = 7'b010_0000;
+AR_I = 7'b100_0000;
 
 localparam
 NO_OP = 3'd0,
@@ -145,7 +146,7 @@ always @ (CONTROL_COMMAND or Z or instruction)
             begin
                 write_enable <= NO_W;
 
-                case (instruction[2:0])
+                case (instruction[1:0])
                     1:
                         begin
                             read_enable <= R_R;
@@ -301,6 +302,46 @@ always @ (CONTROL_COMMAND or Z or instruction)
                 write_enable <= DATA_MEM_W;
                 read_enable <= DR_R;
                 increment <= NO_I;
+                alu <= SFTR;
+                finish <= 0;
+                NEXT_COMMAND <= STOAC3;
+            end
+        
+        STOAC3:
+            begin
+                write_enable <= DR_W;
+                read_enable <= AC_R;
+                increment <= AR_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= STOAC4;
+            end
+        
+        STOAC4:
+            begin
+                write_enable <= DATA_MEM_W;
+                read_enable <= DR_R;
+                increment <= NO_I;
+                alu <= SFTR;
+                finish <= 0;
+                NEXT_COMMAND <= STOAC5;
+            end
+
+        STOAC5:
+            begin
+                write_enable <= DR_W;
+                read_enable <= AC_R;
+                increment <= AR_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= STOAC6;
+            end
+
+        STOAC6:
+            begin
+                write_enable <= DATA_MEM_W;
+                read_enable <= DR_R;
+                increment <= NO_I;
                 alu <= NO_OP;
                 finish <= 0;
                 NEXT_COMMAND <= FETCH1;
@@ -309,7 +350,7 @@ always @ (CONTROL_COMMAND or Z or instruction)
         MVAC:
             begin
 
-                case (instruction[2:0])
+                case (instruction[3:0])
                     1:
                         begin
                             write_enable <= X_W;
@@ -367,7 +408,7 @@ always @ (CONTROL_COMMAND or Z or instruction)
             begin
                 write_enable <= AC_W;
 
-                case (instruction[2:0])
+                case (instruction[3:0])
                     1:
                         begin
                             read_enable <= X_R;
@@ -583,7 +624,7 @@ always @ (CONTROL_COMMAND or Z or instruction)
             begin
                 write_enable <= AR_W;
 
-                case (instruction[2:0])
+                case (instruction[3:0])
                     1:
                         begin
                             read_enable <= X_R;
@@ -633,7 +674,7 @@ always @ (CONTROL_COMMAND or Z or instruction)
                 increment <= NO_I;
                 alu <= NO_OP;
                 finish <= 0;
-                NEXT_COMMAND <= (instruction[2:0] == 4 || instruction[2:0] == 6) ? MOVAR1: FETCH1;
+                NEXT_COMMAND <= (instruction[3:0] == 4 || instruction[3:0] == 6) ? MOVAR2: FETCH1;
             end
 
         MOVAR2:

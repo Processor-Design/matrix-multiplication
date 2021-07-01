@@ -1,6 +1,7 @@
 module bus(clk,pc,ir,ar,ac,x,y,z,stxy,styz,stxz,r,r1,r2,r3,dm,im,busout,read_en);
 
-input clk,read_en;
+input clk;
+input [4:0] read_en;
 
 bus_width =24;
 
@@ -25,41 +26,24 @@ output reg [bus_width-1:0] busout;
 always @(r or r1 or r2 or r3 or x or y or z or stxy or styz or stxz or ar or ir or pc or ac or im or 
 dm or read_en )
 	begin
-		if(read_en)
-			if(r) 
-				busout <= r;
-			if(r1) 
-				busout <= r1;
-			if(r2) 
-				busout <= r2;
-			if(r3) 
-				busout <= r3;
-			if(x) 
-				busout <= x;
-			if(y) 
-				busout <= y;
-			if(z) 
-				busout <= z;
-			if(stxy) 
-				busout <= stxy;
-			if(styz) 
-				busout <= styz;
-			if(stxz) 
-				busout <= stxz;
-			if(ar) 
-				busout <= ar;
-			if(ir) 
-				busout <= ir;
-			if(pc) 
-				busout <= pc;
-			if(ac) 
-				busout <= ac;
-			if(im) 
-				busout <= im;
-			if(dm) 
-				busout <= dm;
-				
+		case(read_en)
+			5'd1: busout <= r;
+			5'd2: busout <= r1;
+			5'd3:	busout <= r2;
+			5'd4:	busout <= r3;
+			5'd5: busout <= x;
+			5'd6:	busout <= y;
+			5'd7:	busout <= z;
+			5'd8:	busout <= stxy;
+         5'd9:	busout <= styz;
+			5'd10: busout <= stxz;
+			5'd11: busout <= ar;
+			5'd12: busout <= ir;
+			5'd13: busout <= pc;
+			5'd14: busout <= ac;
+			5'd15: busout <= im;
+			5'd16: busout <= dm;
 			default: busout <= 24'd0;
-		
+		endcase
 	end
 endmodule

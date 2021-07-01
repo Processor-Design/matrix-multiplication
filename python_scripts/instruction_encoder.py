@@ -2,7 +2,7 @@ import re
 instructionsFile = open('instructions.txt', 'r')
 instructions = instructionsFile.readlines()
 instructions = list(map(str.strip,instructions))
-instructions = filter(None, instructions)
+instructions = list(filter(None, instructions))
 
 IA = {
     "NOP": 4,
@@ -33,6 +33,17 @@ regOrder = ["X", "Y", "Z", "STXY", "STYZ", "STXZ", "R", "R1", "R2", "R3", "DR"]
 
 addReg = ["R", "R1", "R2"]
 
+LOOPS = {}
+
+for i in range(len(instructions)):
+    temp = ""
+    ins = list(filter(None, re.split('\s|,|\'|\\\\', instructions[i])))
+    print ((i+1), ": ",ins)
+    if len(ins) > 2: #Assuming LOOP {NUMBER} comment will have a prior Instruction
+        if "LOOP" in ins:
+            LOOPS[ins[-1]] = i+1 #Assuming comment ends in Loop Number
+print ("LOOPS: ", LOOPS)
+
 encoding = ""
 
 for insLine in instructions:
@@ -52,6 +63,14 @@ for insLine in instructions:
             temp += "\n"
     elif ins[0] == "16":
         temp += "{:16b}".format(ins[1])
+        temp += "\n"
+    elif ins[0] == "LOOP":
+        temp += "{:08b}".format(0)
+        temp += "{:08b}".format(LOOPS[ins[1]])
+        temp += "\n"
+    elif (len(ins)) > 0: #Assuming instruction is a comment
+        temp = "{:08b}".format(IA["NOP"])
+        temp += "{:08b}".format(0)
         temp += "\n"
     if len(temp) == 0:
         temp = "Encoding Error: "+ insLine +"\n"

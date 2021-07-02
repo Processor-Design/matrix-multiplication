@@ -3,6 +3,7 @@
 module control_unit(
 	input clk, Z,
 	input [15:0] instruction,
+    input [1:0] status,
 	output reg fetch, finish = 0,
 
 	output reg [16:0] write_enable,

@@ -33,24 +33,27 @@ module processor (input clock,
  
  wire z ;
 
-Register reg_r(.clk(clock), .write_en (write_en [4]),.datain(bus_out),.dataout(regr_out ),.inc(inc_en[2]),.rst(rst_r));
-Register reg_r1(.clk(clock), .write_en (write_en [3]),.datain(bus_out),.dataout(regr_out ),.inc(1'b0),.rst(rst_r));
-Register reg_r2(.clk(clock), .write_en (write_en [2]),.datain(bus_out),.dataout(regr_out ),.inc(1'b0),.rst(rst_r));
-Register reg_r3(.clk(clock), .write_en (write_en [1]),.datain(bus_out),.dataout(regr_out ),.inc(inc_en[1]),.rst(rst_r));
-Register X(.clk(clock), .write_en (write_en [6]),.datain(bus_out),.inc(1'b0),.dataout(X_out),.rst(rst_r));
-Register Y(.clk(clock), .write_en (write_en [7]),.datain(bus_out),.inc(1'b0),.dataout(Y_out),.rst(rst_r));
-Register Z(.clk(clock), .write_en (write_en [8]),.datain(bus_out),.inc(1'b0),.dataout(Z_out),.rst(rst_r));
-Register STXY(.clk(clock), .write_en (write_en [9]),.datain(bus_out),.inc(inc_en[4]),.dataout(STXY_out),.rst(rst_r));
-Register STYZ(.clk(clock), .write_en (write_en [10]),.datain(bus_out),.inc(1'b0),.dataout(STYZ_out),.rst(rst_r));
-Register STXZ(.clk(clock), .write_en (write_en [11]),.datain(bus_out),.inc(inc_en[3]),.dataout(STXZ_out),.rst(rst_r));
-Register AR(.clk(clock), .write_en(write_en [12]), .datain(bus_out), .inc(inc_en[0]), .dataout(ar_out), .rst(rst_r));
-Register PC(.clk(clock), .write_en(write_en [13]), .datain(ir_out), .inc(inc_en[6]), .dataout(pc_out), .rst(rst_r));
-Register IR(.clk(clock), .write_en(write_en [14]), .datain(bus_out), .inc(1'b0), .dataout(ir_out), .rst(rst_r));
-Register DR(.clk(clock), .write_en(write_en [15]), .datain(bus_out), .inc(1'b0), .dataout(dr_out), .rst(rst_r));
+
+//changed write enable values & Increment Values
+Register #(.word_size(16)) reg_r(.clk(clock), .write_en (write_en [11]),.datain(bus_out),.dataout(regr_out ),.inc(inc_en[4]),.rst(rst_r));
+Register #(.word_size(08)) reg_r1(.clk(clock), .write_en (write_en [12]),.datain(bus_out),.dataout(regr_out ),.inc(1'b0),.rst(rst_r));
+Register #(.word_size(24)) reg_r2(.clk(clock), .write_en (write_en [13]),.datain(bus_out),.dataout(regr_out ),.inc(1'b0),.rst(rst_r));
+Register #(.word_size(16)) reg_r3(.clk(clock), .write_en (write_en [14]),.datain(bus_out),.dataout(regr_out ),.inc(inc_en[5]),.rst(rst_r));
+Register #(.word_size(08)) X(.clk(clock), .write_en (write_en [5]),.datain(bus_out),.inc(1'b0),.dataout(X_out),.rst(rst_r));
+Register #(.word_size(08)) Y(.clk(clock), .write_en (write_en [6]),.datain(bus_out),.inc(1'b0),.dataout(Y_out),.rst(rst_r));
+Register #(.word_size(08)) Z(.clk(clock), .write_en (write_en [7]),.datain(bus_out),.inc(1'b0),.dataout(Z_out),.rst(rst_r));
+Register #(.word_size(16)) STXY(.clk(clock), .write_en (write_en [8]),.datain(bus_out),.inc(inc_en[2]),.dataout(STXY_out),.rst(rst_r));
+Register #(.word_size(16)) STYZ(.clk(clock), .write_en (write_en [9]),.datain(bus_out),.inc(1'b0),.dataout(STYZ_out),.rst(rst_r));
+Register #(.word_size(16)) STXZ(.clk(clock), .write_en (write_en [10]),.datain(bus_out),.inc(inc_en[3]),.dataout(STXZ_out),.rst(rst_r));
+Register #(.word_size(16)) AR(.clk(clock), .write_en(write_en [4]), .datain(bus_out), .inc(inc_en[0]), .dataout(ar_out), .rst(rst_r));
+Register #(.word_size(08)) PC(.clk(clock), .write_en(write_en [2]), .datain(ir_out), .inc(inc_en[0]), .dataout(pc_out), .rst(rst_r));
+Register #(.word_size(16)) IR(.clk(clock), .write_en(write_en [3]), .datain(bus_out), .inc(1'b0), .dataout(ir_out), .rst(rst_r));
+Register #(.word_size(08)) DR(.clk(clock), .write_en(write_en [15]), .datain(bus_out), .inc(1'b0), .dataout(dr_out), .rst(rst_r));
 
 ALU alu(.control_signal(alu_op), .A_in(ac_out), .C_out(alu_out), B_in(bus_out), .Z(z));
-ACRegister AC(.clk(clock),.data_in(bus_out),.data_out(ac_out),.write_en(write_en [5]),.alu_to_ac(write_en[0]),
-.alu_out(alu_out),.incre(inc_en[5]),.rst(rst_r));
+
+ACRegister #(.word_size(24)) AC(.clk(clock),.data_in(bus_out),.data_out(ac_out),.write_en(write_en [16]),.alu_to_ac(write_en[2]),
+.alu_out(alu_out),.incre(inc_en[7]),.rst(rst_r));
 
 control_unit ControlUnit(.clk(clock), .z(Z), .finish(end_process), .write_enable(write_en), .read_enable(read_en), .increment(inc_en), .alu(alu_op));
 

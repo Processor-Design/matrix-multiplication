@@ -4,15 +4,21 @@ module control_unit(
 	input clk, Z,
 	input [15:0] instruction,
     input [1:0] status,
-	output reg fetch, finish = 0,
 
-	output reg [16:0] write_enable,
+	output reg finish = 0,
+    output reg [16:0] write_enable,
     output reg [4:0] read_enable,
 	output reg [6:0] increment,
 	output reg [2:0] alu
     );
 
+localparam 
+prepare = 2'b00,
+process = 2'b01,
+complete = 2'b11;
+
 localparam
+IDLE = 6'd0,
 FETCH1 = 6'd1, FETCH2 = 6'd2, FETCH3 = 6'd3,
 NOP = 6'd4,
 ADD1 = 6'd5, ADD2 = 6'd6,
@@ -101,8 +107,18 @@ reg [5:0] CONTROL_COMMAND;
 reg [5:0] NEXT_COMMAND = FETCH1;
 always @ (negedge clk) CONTROL_COMMAND <= NEXT_COMMAND;
 
-always @ (CONTROL_COMMAND or Z or instruction)
+always @ (CONTROL_COMMAND or Z or instruction or status)
     case (CONTROL_COMMAND)
+
+        IDLE:
+            begin
+                write_enable <= NO_W; 
+                read_enable <= NO_R;
+                increment <= NO_I;
+                alu <= NO_OP;
+                finish <= 0;
+                NEXT_COMMAND <= (status == process) ? FETCH1: IDLE;
+            end
         FETCH1:
             begin
                 write_enable <= NO_W; // Merge Fetch 1 and Fetch 2 ?

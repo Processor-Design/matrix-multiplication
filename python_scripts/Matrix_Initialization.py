@@ -15,15 +15,15 @@ M1start = 14
 Dmat['M1start1'] = int('{0:016b}'.format(M1start)[0:8],2)
 Dmat['M1start2'] = int('{0:016b}'.format(M1start)[8:16],2)
 
-M2start = M1start + X*Y
+M2start = M1start + 4096
 Dmat['M2start1'] = int('{0:016b}'.format(M2start)[0:8],2)
 Dmat['M2start2'] = int('{0:016b}'.format(M2start)[8:16],2)
 
-M3start = M2start + Y*Z
+M3start = M2start + 4096
 Dmat['M3start1'] = int('{0:016b}'.format(M3start)[0:8],2)
 Dmat['M3start2'] = int('{0:016b}'.format(M3start)[8:16],2)
 
-M3end = M3start + X*Z*3 -1
+M3end = M3start + (4096 * 3) -1
 Dmat['M3end1'] = int('{0:016b}'.format(M3end)[0:8],2)
 Dmat['M3end2'] = int('{0:016b}'.format(M3end)[8:16],2)
 
@@ -39,7 +39,7 @@ VectorM2 = np.concatenate(Matrix2)
 f = open('E:/Processor Design/Codes/DRAM/DRAM_DataInt.mif', 'w')
 
 f.write(f'WIDTH={Databits};\n')
-f.write(f'DEPTH={14+X*Y+Y*Z+X*Z*3};\n')
+f.write(f'DEPTH={14+4096*5};\n')
 f.write(f'ADDRESS_RADIX=UNS;\n')
 f.write(f'DATA_RADIX=UNS;\n')
 f.write(f'CONTENT BEGIN\n')
@@ -49,9 +49,9 @@ for k in Dmat:
     f.write(f'\t{j} : {Dmat[k]};\n')
     j+=1
 
-for i in range(j,j+X*Y):
-    f.write(f'\t{i} : {VectorM1[i-j]};\n')
-for i in range(j+X*Y,j+X*Y+Y*Z):
-    f.write(f'\t{i} : {VectorM2[i-(j+X*Y)]};\n')
+for i in range(M1start,M1start+X*Y):
+    f.write(f'\t{i} : {VectorM1[i-M1start]};\n')
+for i in range(M2start,M2start+Y*Z):
+    f.write(f'\t{i} : {VectorM2[i-M2start]};\n')
 
 f.write(f'END;\n')

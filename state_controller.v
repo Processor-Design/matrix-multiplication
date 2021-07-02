@@ -1,4 +1,4 @@
-module main_control ( input clock,
+module state_controller ( input clock,
 input process_finish ,
 input process_ready ,
 
@@ -12,25 +12,9 @@ reg [1:0] CURRENT_STATE = 2'b00;
 reg [1:0] NEXT_STATE = 2'b00;
 
 parameter
-prepare = 2'b00
-process = 2'b01
+prepare = 2'b00,
+process = 2'b01,
 complete = 2'b11;
-
-always @(posedge clock)
-    begin
-        if ( CURRENT_STATE == prepare )
-            begin
-                g1 <= 1;
-            end
-        if ( CURRENT_STATE == process )
-            begin
-                g2 <= 1;
-            end
-        if ( CURRENT_STATE == complete )
-            begin
-                g3 <= 1;
-        end
-    end
 
 initial
     begin
@@ -73,7 +57,7 @@ always @( CURRENT_STATE or process_ready or process_finish)
             begin
                 status <= complete;
 
-                NEXT_STATE <= complete
+                NEXT_STATE <= complete;
             end
 
         endcase

@@ -30,6 +30,7 @@ wire clock;
 reg begin_process ;
 //reg begin_transmit ;
 wire [15:0] datain;
+reg rst;
 wire data_write_en ;
 wire [15:0] data_addr ;
 wire [15:0] instr_in ;
@@ -45,17 +46,20 @@ begin
         begin
             //process_switch_buffer <= process_switch_buffer ;
             begin_process <=1;
+            rst <=0;
         end
         else
         begin
             process_switch_buffer <= process_switch_buffer + 10'd1;
             begin_process <=0;
+            rst <= 1;
         end
     end 
     else 
     begin 
         process_switch_buffer <= 10'd0;
         begin_process <= 0;
+        rst <= 0;
     end 
 end
 
@@ -86,7 +90,7 @@ end
 processor processor1( .dm_out(dm_out),
  .im_out(im_out),
  .status(status),
- .rst(),
+ .rst(rst),
  .dm_en(dm_en),
  .im_en(im_en),
  .pc_out(pc_out),

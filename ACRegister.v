@@ -15,13 +15,13 @@ word_size = 24;
 
 always @(posedge clk or negedge rst)
 	begin
-		if (write_en)
-			data_out <= data_in;
 		if (rst==0)
-         data_out <= 0;
-		if (incre)
+        	data_out <= 0;
+		else if (incre)
 			data_out <= data_out + 16'b1;
-		if (alu_to_ac)
+		else if (write_en)
+			data_out <= data_in;
+		else if (alu_to_ac)
          data_out <= alu_out;
 	end
 

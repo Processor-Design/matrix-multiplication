@@ -1,5 +1,3 @@
-`timescale 1ns / 1ps
-
 module control_unit(
 	input clk, Z,
 	input [15:0] instruction,
@@ -103,8 +101,8 @@ SFTR = 3'd4,
 SFTL = 3'd5,
 ZERO = 3'd6;
 
-reg [5:0] CONTROL_COMMAND;
-reg [5:0] NEXT_COMMAND = FETCH1;
+reg [5:0] CONTROL_COMMAND = 6'd0;
+reg [5:0] NEXT_COMMAND = 6'd0;
 always @ (negedge clk) CONTROL_COMMAND <= NEXT_COMMAND;
 
 always @ (CONTROL_COMMAND or Z or instruction or status)
@@ -136,7 +134,7 @@ always @ (CONTROL_COMMAND or Z or instruction or status)
                 increment <= NO_I;
                 alu <= NO_OP;
                 finish <= 0;
-                NEXT_COMMAND <= FETCH2;
+                NEXT_COMMAND <= FETCH3;
             end
 
         FETCH3:

@@ -2,6 +2,9 @@
 
 module ACRegister(clk,data_in,data_out,write_en,alu_to_ac,alu_out,incre,rst);
 
+localparam
+word_size = 24;
+
 input clk,write_en;
 input incre,rst;
 input alu_to_ac;
@@ -10,8 +13,6 @@ input [word_size-1:0] alu_out;
 output [word_size-1:0] data_out;
 reg [word_size-1:0] data_out=0;
 
-localparam
-word_size = 24;
 
 always @(posedge clk or negedge rst)
 	begin

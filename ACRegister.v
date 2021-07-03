@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module ACRegister(clk,data_in,data_out,write_en,alu_to_ac,alu_out,incre,rst,shift);
+module ACRegister(clk,data_in,data_out,write_en,alu_to_ac,alu_out,incre,rst);
 
 input clk,write_en;
 input incre,rst;

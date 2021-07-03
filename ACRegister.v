@@ -2,15 +2,16 @@
 
 module ACRegister(clk,data_in,data_out,write_en,alu_to_ac,alu_out,incre,rst,shift);
 
-word_size = 16;
-
-input clk,write_en,shift;
+input clk,write_en;
 input incre,rst;
 input alu_to_ac;
 input [word_size-1:0] data_in;
 input [word_size-1:0] alu_out;
 output [word_size-1:0] data_out;
 reg [word_size-1:0] data_out=0;
+
+localparam
+word_size = 24;
 
 always @(posedge clk or negedge rst)
 	begin
@@ -22,8 +23,6 @@ always @(posedge clk or negedge rst)
 			data_out <= data_out + 16'b1;
 		if (alu_to_ac)
          data_out <= alu_out;
-		if (shift)
-			data_out <= data_out + 16'b8;
 	end
 
 endmodule

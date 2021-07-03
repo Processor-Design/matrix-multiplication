@@ -10,8 +10,9 @@ input wire start_process ,
 //output wire l3,
 output wire g1,
 output wire g2,
-output wire g3,
-output wire end_process);  
+output wire g3
+//output wire end_process
+);  
 wire [7:0] dm_out;
 wire [15:0] im_out;
 wire [23:0] bus_out;
@@ -19,7 +20,7 @@ wire dm_en;
 wire [15:0] ar_out;
 wire im_en;
 wire [15:0] pc_out;
-//wire end_process ;
+wire end_process ;
 //wire end_transmitting ;
 wire [1:0] status;
 //wire [15:0] data_out_com ;
@@ -87,20 +88,21 @@ begin
 end
 */
 
-processor processor1( .dm_out(dm_out),
+processor processor1( .clock(clock),
+ .dm_out(dm_out),
  .im_out(im_out),
  .status(status),
- .rst(rst),
+ .rst_r(rst),
  .dm_en(dm_en),
  .im_en(im_en),
  .pc_out(pc_out),
  .ar_out(ar_out),
  .bus_out(bus_out),
- .end_process()
+ .end_process(end_process)
 );
 
 
-main_control main_control1 (
+state_controller State_controller_1 (
 .clk(clock),
 //.end_receiving (end_receiving ),
 .process_finish (end_process),

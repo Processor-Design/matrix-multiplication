@@ -3,6 +3,7 @@ module bus(clk,pc,ir,ar,ac,x,y,z,stxy,styz,stxz,r,r1,r2,r3,dm,im,busout,read_en)
 input clk;
 input [4:0] read_en;
 
+localparam
 bus_width =24;
 
 input [15:0] pc;

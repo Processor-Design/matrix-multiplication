@@ -1,9 +1,11 @@
 module top_processor ( 
 input wire fast_clock ,
 input wire start_process ,
+//input wire [7:0] pc_out1,
 output wire g1,
 output wire g2,
 output wire g3
+//output wire [15:0] temp_out
 );  
 wire [7:0] dm_out;
 wire [15:0] im_out;
@@ -87,5 +89,11 @@ IROM instructionmemory(
 .clock(clock),
 .q(im_out)
 );
+
+// IROM_PROXY instructionmemory(
+// .clock(clock),
+// .address(pc_out1),
+// .q(temp_out)
+// );
 
 endmodule

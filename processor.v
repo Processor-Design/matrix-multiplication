@@ -5,7 +5,7 @@ module processor (input clock,
  input rst_r,
  output reg dm_en,
  output reg im_en,
- output wire [7:0] pc_out,
+ output [7:0] pc_out,
  output [15:0] ar_out,
  output [7:0] bus_out,
  output end_process);

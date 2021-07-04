@@ -16,7 +16,7 @@ reg [word_size-1:0] data_out=0;
 
 always @(posedge clk or negedge rst)
 	begin
-		if (rst==0)
+		if (rst)
         	data_out <= 0;
 		else if (incre)
 			data_out <= data_out + 16'b1;

@@ -20,7 +20,7 @@ always @(posedge clk)
 		if (inc)
 			data_out <= data_out + {word_size{1'b0}} +increment ;
 		if (rst)
-			data_out <= 0;
+			data_out <= 16'd0;
 	end
 
 endmodule

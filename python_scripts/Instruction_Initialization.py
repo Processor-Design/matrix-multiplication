@@ -1,8 +1,8 @@
-ftxt = open("E:/Processor Design/Codes/matrix-multiplication/python_scripts/encoding.txt","r")
+ftxt = open("encoding.txt","r")
 Instructions = ftxt.readlines()
 ftxt.close()
 
-fmif = open('E:/Processor Design/Codes/DRAM/IROM_InsInt.mif', 'w')
+fmif = open('IROM_InsInt.mif', 'w')
 
 fmif.write(f'WIDTH={16};\n')
 fmif.write(f'DEPTH={150};\n')

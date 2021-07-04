@@ -14,7 +14,7 @@ module IROM_tb;
 			end
 		end
 
-IROM IROM (
+IROM IROM1 (
 	.address(address),
 	.clock(clock),
 	.q(q));

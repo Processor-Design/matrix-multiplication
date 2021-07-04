@@ -49,6 +49,7 @@ encoding = ""
 for insLine in instructions:
     temp = ""
     ins = list(filter(None, re.split('\s|,|\'|\\\\', insLine)))
+    print (ins)
     if (ins[0] in list(IA.keys())):
         temp = "{:08b}".format(IA[ins[0]])
         if ins[0] in typeA:
@@ -62,7 +63,7 @@ for insLine in instructions:
             temp += "{:08b}".format(0)
             temp += "\n"
     elif ins[0] == "16":
-        temp += "{:16b}".format(ins[1])
+        temp += "{:016b}".format(int(ins[1]))
         temp += "\n"
     elif ins[0] == "LOOP":
         temp += "{:08b}".format(0)

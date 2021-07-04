@@ -13,14 +13,14 @@ module Register
 );
 
 
-always @(posedge clk)
+always @(posedge clk or posedge rst)
 	begin
 		if (write_en)
 			data_out <= data_in;
-		if (inc)
+		else if (inc)
 			data_out <= data_out + {word_size{1'b0}} +increment ;
-		if (rst)
-			data_out <= 16'd0;
+		else if (rst)
+			data_out <= 16'b0;
 	end
 
 endmodule

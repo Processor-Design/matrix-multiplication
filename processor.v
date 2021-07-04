@@ -5,9 +5,9 @@ module processor (input clock,
  input rst_r,
  output reg dm_en,
  output reg im_en,
- output [15:0] pc_out,
+ output [7:0] pc_out,
  output [15:0] ar_out,
- output [7:0] bus_out,
+ output [23:0] bus_out, //Needs to be 24 bit, TODO: Make sure datamemory bus is 8 bits
  output end_process);
  
  wire [7:0] ir_pc;
@@ -55,10 +55,10 @@ ALU alu(.control_signal(alu_op), .A_in(ac_out), .C_out(alu_out), .B_in(bus_out),
 ACRegister AC(.clk(clock), .data_in(bus_out), .data_out(ac_out), .write_en(write_en [16]), .alu_to_ac(write_en[1]),
 .alu_out(alu_out), .incre(inc_en[1]), .rst(rst_r));
 
-control_unit ControlUnit(.clk(clock), .Z(z), .finish(end_process), .write_enable(write_en), .read_enable(read_en), .increment(inc_en), .alu(alu_op));
+control_unit ControlUnit(.clk(clock), .Z(z), .instruction(ir_out), .status(status), .finish(end_process), .write_enable(write_en), .read_enable(read_en), .increment(inc_en), .alu(alu_op));
 
 bus bus1(.clk(clock), .pc(pc_out), .ir(ir_out), .ar(ar_out), .ac(ac_out), .x(X_out), .y(Y_out), .z(Z_out), .stxy(STXY_out),
 .styz(STYZ_out), .stxz(STXZ_out), .r(regr_out), .r1(regr1_out), .r2(regr2_out), .r3(regr3_out),
-.dm(dm_out), .im(im_out), .busout(bus_out), .read_en(read_en));     
+.dm(dm_out), .im(im_out), .dr(dr_out), .busout(bus_out), .read_en(read_en));     
 
 endmodule

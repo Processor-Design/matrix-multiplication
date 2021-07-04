@@ -7,7 +7,7 @@ module processor (input clock,
  output reg im_en,
  output [7:0] pc_out,
  output [15:0] ar_out,
- output [7:0] bus_out,
+ output [23:0] bus_out, //Needs to be 24 bit, TODO: Make sure datamemory bus is 8 bits
  output end_process);
  
  wire [7:0] ir_pc;

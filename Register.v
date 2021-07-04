@@ -15,12 +15,12 @@ module Register
 
 always @(posedge clk)
 	begin
-		if (write_en)
-			data_out <= data_in;
-		if (inc)
-			data_out <= data_out + {word_size{1'b0}} +increment ;
 		if (rst)
 			data_out <= 0;
+		else if (inc)
+			data_out <= data_out + {word_size{1'b0}} +increment ;
+		else if (write_en)
+			data_out <= data_in;
 	end
 
 endmodule

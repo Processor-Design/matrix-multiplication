@@ -78,7 +78,7 @@ clock_divider clock_divider1(
 
 DRAM datamemory(
 .address(ar_out),
-.clock(clock),
+.clock(~clock),
 .data(bus_out),
 .wren(dm_en),
 .q(dm_out)

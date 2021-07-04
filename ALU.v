@@ -11,11 +11,12 @@ output reg [23:0] C_out;
 reg Z;
 
 
-parameter ADD=3'd0, MUL=3'd1,
-		SUB=3'd2, 
-	    SFTR=3'd3,               //shift right
-        SFTL=3'd4;               //shift left
-	
+parameter ADD=3'd1, 
+		  MUL=3'd2,
+		  SUB=3'd3, 
+	      SFTR=3'd4,               //shift right
+          SFTL=3'd5,               //shift left
+		  ZERO=3'd6;
 always @(control_signal or A_in or B_in)
 	begin
 		case (control_signal)
@@ -44,7 +45,11 @@ always @(control_signal or A_in or B_in)
 					C_out=A_in<<8;
 					Z=(C_out==0)?1'b1:1'b0;
 				end
-			
+			ZERO: 
+				begin
+					C_out= 0;
+					Z=(C_out==0)?1'b1:1'b0;
+				end
 		endcase
 	end
 	

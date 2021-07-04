@@ -620,7 +620,7 @@ always @ (CONTROL_COMMAND or Z or instruction or status)
                 write_enable <= NO_W;
                 read_enable <= NO_R;
                 increment <= NO_I;
-                alu <= SFTR;
+                alu <= SFTL;
                 finish <= 0;
                 NEXT_COMMAND <= SFTL2;
             end

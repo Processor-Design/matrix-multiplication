@@ -197,7 +197,7 @@ always @ (CONTROL_COMMAND or Z or instruction or status)
                 write_enable <= NO_W;
                 read_enable <= R1_R;
                 increment <= NO_I;
-                alu <= ADD;
+                alu <= MUL;
                 finish <= 0;
                 NEXT_COMMAND <= MUL2;
             end

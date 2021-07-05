@@ -1,4 +1,5 @@
 import numpy as np
+np.random.seed(64)
 
 Databits = 8 #Bit size of data
 Maxd = 2**(Databits) #Maximum value of data

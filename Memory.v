@@ -41,7 +41,7 @@ wire[7:0] q34;
 memory_controller memory_control(
   .Q(q),
   .DATA(data),
-  .write_en,
+  .write_en(wren),
   .address(address),
   .q11(q11),
   .q12(q12),
@@ -62,16 +62,16 @@ memory_controller memory_control(
   .data2(data2), 
   .data31(data31),
   .data32(data32),
-  .data33(daat33),
+  .data33(data33),
   .data34(data34),
-  .address1(address1)
-  .address2(address2)
+  .address1(address1),
+  .address2(address2),
   .address3(address3));
 
 
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M11.mif"),
-          .(DEPTH(1038)),
+DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M11.mif"),
+          .DEPTH(1038),
           .ADDWIDTH(11)) 
             M11(
             .address(address1),
@@ -81,8 +81,8 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M11.mif"),
             .q(q11)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M12.mif"),
-          .(DEPTH(1038)),
+DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M12.mif"),
+          .DEPTH(1038),
           .ADDWIDTH(11)) 
             M12(
             .address(address1),
@@ -92,8 +92,8 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M12.mif"),
             .q(q12)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M13.mif"),
-          .(DEPTH(1038)),
+DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M13.mif"),
+          .DEPTH(1038),
           .ADDWIDTH(11)) 
             M13(
             .address(address1),
@@ -103,8 +103,8 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M13.mif"),
             .q(q13)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M14.mif"),
-          .(DEPTH(1038)),
+DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M14.mif"),
+          .DEPTH(1038),
           .ADDWIDTH(11)) 
             M14(
             .address(address1),
@@ -114,8 +114,8 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M14.mif"),
             .q(q14)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M2.mif"),
-          .(DEPTH(4096)),
+DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M2.mif"),
+          .DEPTH(4096),
           .ADDWIDTH(12)) 
             M2(
             .address(address2),
@@ -125,8 +125,8 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M2.mif"),
             .q(q2)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M31.mif"),
-          .(DEPTH(3072)),
+DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M31.mif"),
+          .DEPTH(3072),
           .ADDWIDTH(12)) 
             M31(
             .address(address3),
@@ -136,8 +136,8 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M31.mif"),
             .q(q31)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M32.mif"),
-          .(DEPTH(3072)),
+DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M32.mif"),
+          .DEPTH(3072),
           .ADDWIDTH(12)) 
             M32(
             .address(address3),
@@ -147,8 +147,8 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M32.mif"),
             .q(q32)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M33.mif"),
-          .(DEPTH(3072)),
+DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M33.mif"),
+          .DEPTH(3072),
           .ADDWIDTH(12)) 
             M33(
             .address(address3),
@@ -158,11 +158,11 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M33.mif"),
             .q(q33)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M34.mif"),
-          .(DEPTH(3072)),
+DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M34.mif"),
+          .DEPTH(3072),
           .ADDWIDTH(12)) 
             M34(
-            .address(address4),
+            .address(address3),
             .clock(clock),
             .data(data34),
             .wren(wren3),
@@ -170,5 +170,3 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M34.mif"),
             );
     
 endmodule
-
-  assign Q = {q2,q2,q2,q2}

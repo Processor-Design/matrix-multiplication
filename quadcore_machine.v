@@ -1,4 +1,4 @@
-module top_processor ( 
+module quadcore_machine ( 
 input wire fast_clock ,
 input wire start_process ,
 //input wire [7:0] pc_out1,
@@ -8,9 +8,9 @@ output wire g3,
 output wire [1:0] status
 //output wire [15:0] temp_out
 );  
-wire [7:0] dm_out;
+wire [31:0] dm_out;
 wire [15:0] im_out;
-wire [7:0] bus_out;
+wire [31:0] bus_out;
 wire dm_en;
 wire [15:0] ar_out;
 wire im_en;
@@ -71,7 +71,7 @@ processor core1( .clock(clock),
  //.dm_en(dm_en),
  //.pc_out(pc_out),
  //.ar_out(ar_out),
- .bus_out(bus_out[15:8]),
+ .bus_out(bus_out[15:8])
  //.end_process(end_process)
 );
 
@@ -83,7 +83,7 @@ processor core2( .clock(clock),
  //.dm_en(dm_en),
  //.pc_out(pc_out),
  //.ar_out(ar_out),
- .bus_out(bus_out[23:16]),
+ .bus_out(bus_out[23:16])
  //.end_process(end_process)
 );
 
@@ -95,13 +95,13 @@ processor core3( .clock(clock),
  //.dm_en(dm_en),
  //.pc_out(pc_out),
  //.ar_out(ar_out),
- .bus_out(bus_out[31:24]),
+ .bus_out(bus_out[31:24])
  //.end_process(end_process)
 );
 
 state_controller State_controller_1 (
 .clock(clock),
-.process_finish (end_process),
+.process_finish (end_process0),
 .process_ready (begin_process ),
 .status(status),
 .g1(g1),
@@ -128,7 +128,7 @@ Memory memory1(
     .data(bus_out),
     .wren(dm_en),
     .q(dm_out)
-)
+);
 
 
 

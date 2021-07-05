@@ -4,7 +4,8 @@ input wire start_process ,
 //input wire [7:0] pc_out1,
 output wire g1,
 output wire g2,
-output wire g3
+output wire g3,
+output wire [1:0] status
 //output wire [15:0] temp_out
 );  
 wire [7:0] dm_out;
@@ -15,7 +16,6 @@ wire [15:0] ar_out;
 wire im_en;
 wire [7:0] pc_out;
 wire end_process ;
-wire [1:0] status;
 wire clock;
 reg begin_process ;
 wire [15:0] datain;

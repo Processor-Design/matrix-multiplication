@@ -10,7 +10,7 @@ IA = {
     "MUL": 7,
     "SUB": 9,
     "LODAC": 11,
-    "LDACAR": 16,
+    "LODACAR": 16,
     "STOAC": 18,
     "MVAC": 20,
     "MOVREG": 21,
@@ -41,7 +41,7 @@ for i in range(len(instructions)):
     print ((i+1), ": ",ins)
     if len(ins) > 2: #Assuming LOOP {NUMBER} comment will have a prior Instruction
         if "LOOP" in ins:
-            LOOPS[ins[-1]] = i+1 #Assuming comment ends in Loop Number
+            LOOPS[ins[-1]] = i #Assuming comment ends in Loop Number
 print ("LOOPS: ", LOOPS)
 
 encoding = ""

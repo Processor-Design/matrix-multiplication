@@ -98,6 +98,3 @@ InitMem3(f_m31)
 InitMem3(f_m32)
 InitMem3(f_m33)
 InitMem3(f_m34)
-
-print(Dmat['X'])
-print(X)

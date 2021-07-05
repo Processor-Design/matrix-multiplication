@@ -51,11 +51,14 @@ MVAC, R
 INCR
 MOVREG, R2
 SUB
+SUB
+SUB
 MVAC, R2
 LODAC
 16'10
 MVAC, R1
 MOVAR, R1
+MOVREG, R2
 STOAC
 CLAC
 MVAC, R1
@@ -74,47 +77,53 @@ MVAC, R1
 MOVREG, STYZ
 ADD, R1
 MVAC, STYZ
-INCR \\ check whether one element is done
+INCR \\ check whether one output element is done
 MOVREG, Y
 SUB (R)
-JUMPZ
+JUMPZ \\ \\ One output element is done
 LOOP THREE
 JUMP \\ One Multiplication Done
 LOOP ONE
 MOVREG, R3 \\ LOOP THREE
-MVAC, R
+MVAC, R \\ Check whether one output row is done
 MOVREG, Z
 SUB (R)
-JUMPNZ
-LOOP TWO
-LODAC
-Address M3 END1
+JMNZ 
+LOOP TWO \\ One output row not done
+LODAC \\ check whether whole matrix is done
+16'12
 SFTL
 MVAC R
 LODAC
-Address M3 END2
+16'11
 ADD, R
 MVAC, R
 MOVREG, STXZ
 SUB (R)
 JUMPZ
-LOOP FOUR
-MVREG, R2
+LOOP FOUR \\ Whole Matrix is done
+MOVREG, R2
 MOVAR, STXZ ( Inc STXZ by 1)
+STOAC
 CLAC ( Added after removing RST, R3)
+MVAC, R
+MVAC, R1
+MVAC, R2
 MVAC, R3
 INCR3
-STOAC
 LODAC \\Load M2 Start1
 16'5
 SFTL
-MVAC R
+MVAC, R2
 LODAC \\Load M2 Start2
 16'6
+ADD, R2
 MVAC, STYZ
+CLAC
+MVAC, R2
 JUMP
 LOOP ONE
-MVREG, R2 \\LOOP TWO
+MOVREG, R2 \\LOOP TWO
 MOVAR, STXZ ( Inc STXZ by 1)
 INCR3
 STOAC
@@ -128,14 +137,17 @@ MVAC, R1 (R might need MUL)
 MOVREG, Y
 MUL
 MVAC, R
-MOVEREG, STYZ
+MOVREG, STYZ
 SUB (R)
 INCAC
-MVAC, STYZ
-Set XTYZ to next column, first element
+MVAC, STYZ \\Set STYZ to next column, first element
+CLAC
+MVAC, R
+MVAC, R1
+MVAC, R2
 JUMP 
 LOOP ONE
-MVREG, R2 \\LOOP FOUR
+MOVREG, R2 \\LOOP FOUR
 MOVAR, STXZ ( Inc STXZ by 3)
 STOAC
 ENDOP

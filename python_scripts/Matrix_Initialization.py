@@ -5,7 +5,7 @@ Databits = 8 #Bit size of data
 Maxd = 2**(Databits) #Maximum value of data
 
 #Datas related to matrices
-Dmat = {'X':64, 'Y':64, 'Z':64, 'M1start1':None, 'M1start2':None, 'M2start1':None, 'M2start2':None, 'M3start1':None, 'M3start2':None, 'n1':3, 'n2':11, 'blank':0, 'M3end1':None, 'M3end2':None}
+Dmat = {'X':2, 'Y':2, 'Z':2, 'M1start1':None, 'M1start2':None, 'M2start1':None, 'M2start2':None, 'M3start1':None, 'M3start2':None, 'n1':3, 'n2':11, 'blank':0, 'M3end1':None, 'M3end2':None}
 
 X = Dmat['X'] #Raw dimension of matrix1
 Y = Dmat['Y'] #Column dimension of matrix1 / Raw dimension of matrix2
@@ -37,7 +37,7 @@ VectorM1 = np.concatenate(Matrix1)
 VectorM2 = np.concatenate(Matrix2)
 
 #Create a .mif file and write vectors in a specified format
-f = open('E:/Processor Design/Codes/DRAM/DRAM_DataInt.mif', 'w')
+f = open('DRAM_DataInt.mif', 'w')
 
 f.write(f'WIDTH={Databits};\n')
 f.write(f'DEPTH={14+4096*5};\n')

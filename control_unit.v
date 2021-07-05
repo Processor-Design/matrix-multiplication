@@ -197,7 +197,7 @@ always @ (CONTROL_COMMAND or Z or instruction or status)
                 write_enable <= NO_W;
                 read_enable <= R1_R;
                 increment <= NO_I;
-                alu <= ADD;
+                alu <= MUL;
                 finish <= 0;
                 NEXT_COMMAND <= MUL2;
             end
@@ -314,7 +314,7 @@ always @ (CONTROL_COMMAND or Z or instruction or status)
 
         STOAC2:
             begin
-                write_enable <= DATA_MEM_W;
+                write_enable <= DATA_MEM_W + ALU_AC_W;
                 read_enable <= DR_R;
                 increment <= NO_I;
                 alu <= SFTR;
@@ -334,7 +334,7 @@ always @ (CONTROL_COMMAND or Z or instruction or status)
         
         STOAC4:
             begin
-                write_enable <= DATA_MEM_W;
+                write_enable <= DATA_MEM_W + ALU_AC_W;
                 read_enable <= DR_R;
                 increment <= NO_I;
                 alu <= SFTR;
@@ -522,7 +522,7 @@ always @ (CONTROL_COMMAND or Z or instruction or status)
                 increment <= NO_I;
                 alu <= NO_OP;
                 finish <= 0;
-                NEXT_COMMAND <= JUMP3;
+                NEXT_COMMAND <= FETCH1;
             end
         
         JUMPZ:
@@ -532,7 +532,7 @@ always @ (CONTROL_COMMAND or Z or instruction or status)
                 increment <= NO_I;
                 alu <= NO_OP;
                 finish <= 0;
-                NEXT_COMMAND <= (Z) ? JUMPZN: JUMP1;
+                NEXT_COMMAND <= (Z) ? JUMP1: JUMPZN;
             end
         
         JUMPZN:
@@ -552,7 +552,7 @@ always @ (CONTROL_COMMAND or Z or instruction or status)
                 increment <= NO_I;
                 alu <= NO_OP;
                 finish <= 0;
-                NEXT_COMMAND <= (Z) ? JUMP1: JMNZN;
+                NEXT_COMMAND <= (Z) ? JMNZN: JUMP1;
             end
         
         JMNZN:

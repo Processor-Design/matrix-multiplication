@@ -20,7 +20,7 @@ initial
 		begin
 			clk = 1'b0;
 			forever begin
-				#10 clk = ~clk;
+				#5 clk = ~clk;
 			end
 		end
 
@@ -31,7 +31,7 @@ always @(posedge clk)
                 //pc_out1 <= pc_out1 + 8'd1;
                 start_process <=1;
                 stop_buffer <= stop_buffer + 14'd1;
-                if ( stop_buffer == 14'd1000)
+                if ( stop_buffer == 14'd8000)
                     begin
                         $stop;
                     end

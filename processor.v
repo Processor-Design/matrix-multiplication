@@ -3,7 +3,7 @@ module processor (input clock,
  input [15:0] im_out,
  input [1:0] status,
  input rst_r,
- output reg dm_en,
+ output wire dm_en,
  output reg im_en,
  output [7:0] pc_out,
  output [15:0] ar_out,
@@ -30,9 +30,9 @@ module processor (input clock,
  wire [15:0] STYZ_out;
  wire [15:0] STXZ_out;
  
- 
  wire z ;
 
+ assign dm_en = write_en[0];
 
 //changed write enable values & Increment Values
 Register #(.word_size(16)) reg_r(.clk(clock), .write_en (write_en [11]),.data_in(bus_out),.data_out(regr_out ),.inc(inc_en[4]),.rst(rst_r));

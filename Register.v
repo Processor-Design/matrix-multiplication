@@ -13,7 +13,7 @@ module Register
 );
 
 
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	begin
 		if (write_en)
 			data_out <= data_in;

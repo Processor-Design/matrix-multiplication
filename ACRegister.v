@@ -14,7 +14,7 @@ output [word_size-1:0] data_out;
 reg [word_size-1:0] data_out=0;
 
 
-always @(posedge clk or negedge rst)
+always @(posedge clk)
 	begin
 		if (rst)
         	data_out <= 0;

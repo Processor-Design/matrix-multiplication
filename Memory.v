@@ -7,8 +7,8 @@ module Memory (
 );
 
 wire[10:0] address1;
-wire[10:0] address2;
-wire[10:0] address3;
+wire[11:0] address2;
+wire[11:0] address3;
 
 wire wren1;
 wire wren2;
@@ -37,6 +37,37 @@ wire[7:0] q31;
 wire[7:0] q32;
 wire[7:0] q33;
 wire[7:0] q34;
+
+memory_controller memory_control(
+  .Q(q),
+  .DATA(data),
+  .write_en,
+  .address(address),
+  .q11(q11),
+  .q12(q12),
+  .q13(q13),
+  .q14(q14),
+  .q2(q2),
+  .q31(q31),
+  .q32(q32),
+  .q33(q33),
+  .q34(q34),
+  .wren1(wren1),
+  .wren2(wren2),
+  .wren3(wren3),
+  .data11(data11),
+  .data12(data12),
+  .data13(data13),
+  .data14(data14),
+  .data2(data2), 
+  .data31(data31),
+  .data32(data32),
+  .data33(daat33),
+  .data34(data34),
+  .address1(address1)
+  .address2(address2)
+  .address3(address3));
+
 
 
 DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAM_DataInt_M11.mif"),

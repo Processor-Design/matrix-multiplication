@@ -5,7 +5,7 @@ Databits = 8 #Bit size of data
 Maxd = 2**(Databits) #Maximum value of data
 
 #Datas related to matrices
-Dmat = {'X':32, 'Y':32, 'Z':32, 'M1start1':None, 'M1start2':None, 'M2start1':None, 'M2start2':None, 'M3start1':None, 'M3start2':None, 'n1':3, 'n2':11, 'blank':0, 'M3end1':None, 'M3end2':None}
+Dmat = {'X':10, 'Y':7, 'Z':12, 'M1start1':None, 'M1start2':None, 'M2start1':None, 'M2start2':None, 'M3start1':None, 'M3start2':None, 'n1':3, 'n2':11, 'blank':0, 'M3end1':None, 'M3end2':None}
 
 X = Dmat['X'] #Raw dimension of matrix1
 Y = Dmat['Y'] #Column dimension of matrix1 / Raw dimension of matrix2

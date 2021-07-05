@@ -10,10 +10,9 @@ output wire [1:0] status
 );  
 wire [7:0] dm_out;
 wire [15:0] im_out;
-wire [23:0] bus_out;
+wire [7:0] bus_out;
 wire dm_en;
 wire [15:0] ar_out;
-wire im_en;
 wire [7:0] pc_out;
 wire end_process ;
 wire clock;
@@ -54,7 +53,6 @@ processor processor1( .clock(clock),
  .status(status),
  .rst_r(rst),
  .dm_en(dm_en),
- .im_en(im_en),
  .pc_out(pc_out),
  .ar_out(ar_out),
  .bus_out(bus_out),

@@ -25,22 +25,22 @@ def matrix_out_mem():
     contentsm34 = list(map(str.strip,contentsm34))
 
     mul_matrix = []
-    for i in range(3,(XD[0]*3)+3,3):
+    for i in range(3,(XD[0]*Z*3)+3,3):
         value = contentsm31[i+2][-8:] + contentsm31[i+1][-8:] + contentsm31[i][-8:]
         value = int(value,2)
         mul_matrix.append(value)
 
-    for i in range(3,(XD[1]*3)+3,3):
+    for i in range(3,(XD[1]*Z*3)+3,3):
         value = contentsm32[i+2][-8:] + contentsm32[i+1][-8:] + contentsm32[i][-8:]
         value = int(value,2)
         mul_matrix.append(value)
 
-    for i in range(3,(XD[2]*3)+3,3):
+    for i in range(3,(XD[2]*Z*3)+3,3):
         value = contentsm33[i+2][-8:] + contentsm33[i+1][-8:] + contentsm33[i][-8:]
         value = int(value,2)
         mul_matrix.append(value)
 
-    for i in range(3,(XD[3]*3)+3,3):
+    for i in range(3,(XD[3]*Z*3)+3,3):
         value = contentsm34[i+2][-8:] + contentsm34[i+1][-8:] + contentsm34[i][-8:]
         value = int(value,2)
         mul_matrix.append(value)

@@ -93,9 +93,9 @@ for i in range(int(X%4)):
 
 #save contents into memory instances
 InitMem1(f_m11,XD[0],0)
-InitMem1(f_m12,XD[1],XD[0])
-InitMem1(f_m13,XD[2],XD[0]+XD[1])
-InitMem1(f_m14,XD[3],XD[0]+XD[1]+XD[2])
+InitMem1(f_m12,XD[1],XD[0]*Y)
+InitMem1(f_m13,XD[2],(XD[0]+XD[1])*Y)
+InitMem1(f_m14,XD[3],(XD[0]+XD[1]+XD[2])*Y)
 
 InitMem2(f_m2)
 

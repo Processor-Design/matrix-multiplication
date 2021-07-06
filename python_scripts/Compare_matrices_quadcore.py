@@ -2,8 +2,8 @@ import numpy as np
 np.random.seed(64)
 
 def matrix_out_py():
-    matrix1 = np.random.randint(255, size=(X,Y))
-    matrix2 = np.random.randint(255, size=(Y,Z))
+    matrix1 = np.random.randint(256, size=(X,Y))
+    matrix2 = np.random.randint(256, size=(Y,Z))
     out_matrix = np.dot(matrix1, matrix2)
     return (out_matrix)
 
@@ -44,13 +44,11 @@ def matrix_out_mem():
         value = contentsm34[i+2][-8:] + contentsm34[i+1][-8:] + contentsm34[i][-8:]
         value = int(value,2)
         mul_matrix.append(value)
-        
     mul_matrix = np.reshape(mul_matrix, (X,Z))
     return (mul_matrix)
-
-X = 11
-Y = 5
-Z = 7
+X =63
+Y = 62
+Z = 61
 
 XD = [int(X/4),int(X/4),int(X/4),int(X/4)]
 for i in range(int(X%4)):

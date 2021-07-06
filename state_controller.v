@@ -1,6 +1,6 @@
 module state_controller ( input clock,
 input process_finish ,
-input process_ready ,
+input start_process,
 
 output reg [1:0] status,
 
@@ -10,6 +10,10 @@ output reg g3);
 
 reg [1:0] CURRENT_STATE = 2'b00;
 reg [1:0] NEXT_STATE = 2'b00;
+
+reg process_ready ;
+reg rst;
+reg [9:0] process_switch_buffer = 10'd0;
 
 parameter
 prepare = 2'b00,
@@ -24,6 +28,30 @@ initial
     end
 
 always @(posedge clock)
+begin
+    if (start_process )
+    begin
+        if (process_switch_buffer == 10'd10 )
+        begin
+            process_ready <=1;
+            rst <=0;
+        end
+        else
+        begin
+            process_switch_buffer <= process_switch_buffer + 10'd1;
+            process_ready <=0;
+            rst <= 1;
+        end
+    end 
+    else 
+    begin 
+        process_switch_buffer <= 10'd0;
+        process_ready <= 0;
+        rst <= 0;
+    end 
+end
+
+always @(posedge clock)
     CURRENT_STATE <= NEXT_STATE;
 
 always @( CURRENT_STATE or process_ready or process_finish)
@@ -32,8 +60,7 @@ always @( CURRENT_STATE or process_ready or process_finish)
             begin
                 status <= prepare;
 
-                g2 <=0;
-                g3 <=0;
+                g1 <=1;
 
                 if ( process_ready )
                     NEXT_STATE<= process;
@@ -45,7 +72,7 @@ always @( CURRENT_STATE or process_ready or process_finish)
             begin
                 status <= process;
 
-                g3 <=0;
+                g2 <=1;
 
                 if ( process_ready && process_finish )
                     NEXT_STATE<=  complete;
@@ -56,6 +83,8 @@ always @( CURRENT_STATE or process_ready or process_finish)
         complete : 
             begin
                 status <= complete;
+
+                g3 <=1;
 
                 NEXT_STATE <= complete;
             end

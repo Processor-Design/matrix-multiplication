@@ -20,38 +20,9 @@ wire end_process1 ;
 wire end_process2 ;
 wire end_process3 ;
 wire clock;
-reg begin_process ;
 wire [15:0] datain;
-reg rst;
-reg [9:0] process_switch_buffer = 10'd0;
 
-always @(posedge clock)
-begin
-    if (start_process )
-    begin
-        if (process_switch_buffer == 10'd10 )
-        begin
-            begin_process <=1;
-            rst <=0;
-        end
-        else
-        begin
-            process_switch_buffer <= process_switch_buffer + 10'd1;
-            begin_process <=0;
-            rst <= 1;
-        end
-    end 
-    else 
-    begin 
-        process_switch_buffer <= 10'd0;
-        begin_process <= 0;
-        rst <= 0;
-    end 
-end
-
-
-
-processor core0( .clock(clock),
+processor #(.core(1)) core0( .clock(clock),
  .dm_out(dm_out[7:0]),
  .im_out(im_out),
  .status(status),
@@ -63,7 +34,7 @@ processor core0( .clock(clock),
  .end_process(end_process0)
 );
 
-processor core1( .clock(clock),
+processor #(.core(2)) core1( .clock(clock),
  .dm_out(dm_out[15:8]),
  .im_out(im_out),
  .status(status),
@@ -75,7 +46,7 @@ processor core1( .clock(clock),
  //.end_process(end_process)
 );
 
-processor core2( .clock(clock),
+processor #(.core(3)) core2( .clock(clock),
  .dm_out(dm_out[23:16]),
  .im_out(im_out),
  .status(status),
@@ -87,7 +58,7 @@ processor core2( .clock(clock),
  //.end_process(end_process)
 );
 
-processor core3( .clock(clock),
+processor #(.core(4)) core3( .clock(clock),
  .dm_out(dm_out[31:24]),
  .im_out(im_out),
  .status(status),
@@ -102,7 +73,7 @@ processor core3( .clock(clock),
 state_controller State_controller_1 (
 .clock(clock),
 .process_finish (end_process0),
-.process_ready (begin_process ),
+.start_process (start_process ),
 .status(status),
 .g1(g1),
 .g2(g2),

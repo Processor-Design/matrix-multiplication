@@ -70,7 +70,7 @@ memory_controller memory_control(
 
 
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M11.mif"),
+DRAM #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M11.mif"),
           .DEPTH(1038),
           .ADDWIDTH(11)) 
             M11(
@@ -81,7 +81,7 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M11.mif"),
             .q(q11)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M12.mif"),
+DRAM #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M12.mif"),
           .DEPTH(1038),
           .ADDWIDTH(11)) 
             M12(
@@ -92,7 +92,7 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M12.mif"),
             .q(q12)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M13.mif"),
+DRAM #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M13.mif"),
           .DEPTH(1038),
           .ADDWIDTH(11)) 
             M13(
@@ -103,7 +103,7 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M13.mif"),
             .q(q13)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M14.mif"),
+DRAM #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M14.mif"),
           .DEPTH(1038),
           .ADDWIDTH(11)) 
             M14(
@@ -114,7 +114,7 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M14.mif"),
             .q(q14)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M2.mif"),
+DRAM #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M2.mif"),
           .DEPTH(4096),
           .ADDWIDTH(12)) 
             M2(
@@ -125,7 +125,7 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M2.mif"),
             .q(q2)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M31.mif"),
+DRAM #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M31.mif"),
           .DEPTH(3072),
           .ADDWIDTH(12)) 
             M31(
@@ -136,7 +136,7 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M31.mif"),
             .q(q31)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M32.mif"),
+DRAM #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M32.mif"),
           .DEPTH(3072),
           .ADDWIDTH(12)) 
             M32(
@@ -147,7 +147,7 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M32.mif"),
             .q(q32)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M33.mif"),
+DRAM #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M33.mif"),
           .DEPTH(3072),
           .ADDWIDTH(12)) 
             M33(
@@ -158,7 +158,7 @@ DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M33.mif"),
             .q(q33)
             );
 
-DRAM_copy #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M34.mif"),
+DRAM #(.MIF("./python_scripts/MemInitFiles/DRAMInit_M34.mif"),
           .DEPTH(3072),
           .ADDWIDTH(12)) 
             M34(

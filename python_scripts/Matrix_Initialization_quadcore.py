@@ -25,7 +25,7 @@ def InitMem2(f):
     f.write(f'CONTENT BEGIN\n')
 
     for i in range(Y*Z):
-        f.write(f'\t{i} : {VectorM1[i]};\n')
+        f.write(f'\t{i} : {VectorM2[i]};\n')
 
     f.write(f'END;\n')
 

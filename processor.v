@@ -1,4 +1,6 @@
-module processor (input clock,
+module processor 
+#( parameter core = 0)
+(input clock,
  input [7:0] dm_out,
  input [15:0] im_out,
  input [1:0] status,
@@ -38,7 +40,7 @@ Register #(.word_size(16)) reg_r(.clk(clock), .write_en (write_en [11]),.data_in
 Register #(.word_size(08)) reg_r1(.clk(clock), .write_en (write_en [12]),.data_in(bus_out),.data_out(regr1_out ),.inc(1'b0),.rst(rst_r));
 Register #(.word_size(24)) reg_r2(.clk(clock), .write_en (write_en [13]),.data_in(bus_out),.data_out(regr2_out ),.inc(1'b0),.rst(rst_r));
 Register #(.word_size(16)) reg_r3(.clk(clock), .write_en (write_en [14]),.data_in(bus_out),.data_out(regr3_out ),.inc(inc_en[5]),.rst(rst_r));
-Register #(.word_size(08)) X(.clk(clock), .write_en (write_en [5]),.data_in(bus_out),.inc(1'b0),.data_out(X_out),.rst(rst_r));
+XRegister #(.word_size(08)) X(.clk(clock), .write_en (write_en [5]),.data_in(bus_out),.inc(1'b0),.data_out(X_out),.rst(rst_r), .core(core));
 Register #(.word_size(08)) Y(.clk(clock), .write_en (write_en [6]),.data_in(bus_out),.inc(1'b0),.data_out(Y_out),.rst(rst_r));
 Register #(.word_size(08)) Z(.clk(clock), .write_en (write_en [7]),.data_in(bus_out),.inc(1'b0),.data_out(Z_out),.rst(rst_r));
 Register #(.word_size(16)) STXY(.clk(clock), .write_en (write_en [8]),.data_in(bus_out),.inc(inc_en[2]),.data_out(STXY_out),.rst(rst_r));

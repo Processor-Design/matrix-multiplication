@@ -36,7 +36,7 @@
 // synopsys translate_off
 `timescale 1 ps / 1 ps
 // synopsys translate_on
-module DRAM 
+module DRAM_copy 
 #(parameter MIF = "./python_scripts/DRAM_DataInt.mif",
   parameter DEPTH = 65536,
   parameter ADDWIDTH = 16

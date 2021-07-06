@@ -3,7 +3,7 @@ input process_finish ,
 input start_process,
 
 output reg [1:0] status,
-
+output reg rst,
 output reg g1,
 output reg g2,
 output reg g3);
@@ -11,8 +11,7 @@ output reg g3);
 reg [1:0] CURRENT_STATE = 2'b00;
 reg [1:0] NEXT_STATE = 2'b00;
 
-reg process_ready ;
-reg rst;
+reg process_ready = 1'b0;
 reg [9:0] process_switch_buffer = 10'd0;
 
 parameter

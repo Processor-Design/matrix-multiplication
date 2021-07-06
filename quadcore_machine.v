@@ -21,8 +21,9 @@ wire end_process2 ;
 wire end_process3 ;
 wire clock;
 wire [15:0] datain;
+wire rst;
 
-processor #(.core(1)) core0( .clock(clock),
+processor core0( .clock(clock),
  .dm_out(dm_out[7:0]),
  .im_out(im_out),
  .status(status),
@@ -34,7 +35,7 @@ processor #(.core(1)) core0( .clock(clock),
  .end_process(end_process0)
 );
 
-processor #(.core(2)) core1( .clock(clock),
+processor core1( .clock(clock),
  .dm_out(dm_out[15:8]),
  .im_out(im_out),
  .status(status),
@@ -46,7 +47,7 @@ processor #(.core(2)) core1( .clock(clock),
  //.end_process(end_process)
 );
 
-processor #(.core(3)) core2( .clock(clock),
+processor core2( .clock(clock),
  .dm_out(dm_out[23:16]),
  .im_out(im_out),
  .status(status),
@@ -58,7 +59,7 @@ processor #(.core(3)) core2( .clock(clock),
  //.end_process(end_process)
 );
 
-processor #(.core(4)) core3( .clock(clock),
+processor core3( .clock(clock),
  .dm_out(dm_out[31:24]),
  .im_out(im_out),
  .status(status),
@@ -75,6 +76,7 @@ state_controller State_controller_1 (
 .process_finish (end_process0),
 .start_process (start_process ),
 .status(status),
+.rst(rst),
 .g1(g1),
 .g2(g2),
 .g3(g3)
@@ -93,7 +95,7 @@ clock_divider clock_divider1(
 // .q(dm_out)
 // );
 
-Memory memory1(
+Memory datamemory(
     .address(ar_out),
     .clock(~clock),
     .data(bus_out),

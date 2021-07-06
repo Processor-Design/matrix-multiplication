@@ -25,22 +25,22 @@ def matrix_out_mem():
     contentsm34 = list(map(str.strip,contentsm34))
 
     mul_matrix = []
-    for i in range(3,int(X*Z*3/4)+3,3):
+    for i in range(3,(XD[0]*3)+3,3):
         value = contentsm31[i+2][-8:] + contentsm31[i+1][-8:] + contentsm31[i][-8:]
         value = int(value,2)
         mul_matrix.append(value)
 
-    for i in range(3,int(X*Z*3/4)+3,3):
+    for i in range(3,(XD[1]*3)+3,3):
         value = contentsm32[i+2][-8:] + contentsm32[i+1][-8:] + contentsm32[i][-8:]
         value = int(value,2)
         mul_matrix.append(value)
 
-    for i in range(3,int(X*Z*3/4)+3,3):
+    for i in range(3,(XD[2]*3)+3,3):
         value = contentsm33[i+2][-8:] + contentsm33[i+1][-8:] + contentsm33[i][-8:]
         value = int(value,2)
         mul_matrix.append(value)
 
-    for i in range(3,int(X*Z*3/4)+3,3):
+    for i in range(3,(XD[3]*3)+3,3):
         value = contentsm34[i+2][-8:] + contentsm34[i+1][-8:] + contentsm34[i][-8:]
         value = int(value,2)
         mul_matrix.append(value)
@@ -51,6 +51,10 @@ def matrix_out_mem():
 X = 11
 Y = 5
 Z = 7
+
+XD = [int(X/4),int(X/4),int(X/4),int(X/4)]
+for i in range(int(X%4)):
+    XD[i] += 1 
 
 pymatrix = matrix_out_py()
 memmatrix = matrix_out_mem()

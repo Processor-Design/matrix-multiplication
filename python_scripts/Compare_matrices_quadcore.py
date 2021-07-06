@@ -7,7 +7,7 @@ def matrix_out_py(X=10, Y=7, Z=12):
     out_matrix = np.dot(matrix1, matrix2)
     return (out_matrix)
 
-def matrix_out_mem(X=10, Z=12):
+def matrix_out_mem(X, Z):
     fm31 = open("DRAMInitM31.mem", "r")
     contentsm31 = f.readlines()
     contentsm31 = list(map(str.strip,contentsm31))

@@ -1,19 +1,19 @@
-def InitMem1(f,Inc):
+def InitMem1(f,Xd,Inc):
     f.write(f'WIDTH={Databits};\n')
     f.write(f'DEPTH={1038};\n')
     f.write(f'ADDRESS_RADIX=UNS;\n')
     f.write(f'DATA_RADIX=UNS;\n')
     f.write(f'CONTENT BEGIN\n')
 
-    Dmat['X'] = int(X/4)
+    Dmat['X'] = Xd
     
     j = 0
     for k in Dmat:
         f.write(f'\t{j} : {Dmat[k]};\n')
         j+=1
 
-    for i in range(M1start,M1start+int((X/4)*Y)):
-        f.write(f'\t{i} : {VectorM1[i-M1start+int(Inc)]};\n')
+    for i in range(M1start,M1start+Xd*Y):
+        f.write(f'\t{i} : {VectorM1[i-M1start+Inc]};\n')
 
     f.write(f'END;\n')
 
@@ -45,7 +45,7 @@ Databits = 8 #Bit size of data
 Maxd = 2**(Databits) #Maximum value of data
 
 #Datas related to matrices
-Dmat = {'X':4, 'Y':1, 'Z':1, 'M1start1':None, 'M1start2':None, 'M2start1':None, 'M2start2':None, 'M3start1':None, 'M3start2':None, 'n1':3, 'n2':11, 'blank':0, 'M3end1':0, 'M3end2':0}
+Dmat = {'X':11, 'Y':5, 'Z':7, 'M1start1':None, 'M1start2':None, 'M2start1':None, 'M2start2':None, 'M3start1':None, 'M3start2':None, 'n1':3, 'n2':11, 'blank':0, 'M3end1':0, 'M3end2':0}
 
 X = Dmat['X'] 
 Y = Dmat['Y'] 
@@ -86,11 +86,16 @@ f_m32 = open('MemInitFiles/DRAMInit_M32.mif', 'w')
 f_m33 = open('MemInitFiles/DRAMInit_M33.mif', 'w')
 f_m34 = open('MemInitFiles/DRAMInit_M34.mif', 'w')
 
+
+XD = [int(X/4),int(X/4),int(X/4),int(X/4)]
+for i in range(int(X%4)):
+    XD[i] += 1
+
 #save contents into memory instances
-InitMem1(f_m11,0)
-InitMem1(f_m12,Y*X/4)
-InitMem1(f_m13,Y*X/2)
-InitMem1(f_m14,Y*X*3/4)
+InitMem1(f_m11,XD[0],0)
+InitMem1(f_m12,XD[1],XD[0])
+InitMem1(f_m13,XD[2],XD[0]+XD[1])
+InitMem1(f_m14,XD[3],XD[0]+XD[1]+XD[2])
 
 InitMem2(f_m2)
 

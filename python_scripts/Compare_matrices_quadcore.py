@@ -1,13 +1,13 @@
 import numpy as np
 np.random.seed(64)
 
-def matrix_out_py(X=8, Y=16, Z=10):
+def matrix_out_py():
     matrix1 = np.random.randint(255, size=(X,Y))
     matrix2 = np.random.randint(255, size=(Y,Z))
     out_matrix = np.dot(matrix1, matrix2)
     return (out_matrix)
 
-def matrix_out_mem(X, Z):
+def matrix_out_mem():
     fm31 = open("DRAMInitM31.mem", "r")
     contentsm31 = fm31.readlines()
     contentsm31 = list(map(str.strip,contentsm31))
@@ -26,31 +26,31 @@ def matrix_out_mem(X, Z):
 
     mul_matrix = []
     for i in range(3,int(X*Z*3/4)+3,3):
-        #print(contents[i][-8:])
         value = contentsm31[i+2][-8:] + contentsm31[i+1][-8:] + contentsm31[i][-8:]
         value = int(value,2)
         mul_matrix.append(value)
 
     for i in range(3,int(X*Z*3/4)+3,3):
-        #print(contents[i][-8:])
         value = contentsm32[i+2][-8:] + contentsm32[i+1][-8:] + contentsm32[i][-8:]
         value = int(value,2)
         mul_matrix.append(value)
 
     for i in range(3,int(X*Z*3/4)+3,3):
-        #print(contents[i][-8:])
         value = contentsm33[i+2][-8:] + contentsm33[i+1][-8:] + contentsm33[i][-8:]
         value = int(value,2)
         mul_matrix.append(value)
 
     for i in range(3,int(X*Z*3/4)+3,3):
-        #print(contents[i][-8:])
         value = contentsm34[i+2][-8:] + contentsm34[i+1][-8:] + contentsm34[i][-8:]
         value = int(value,2)
         mul_matrix.append(value)
         
     mul_matrix = np.reshape(mul_matrix, (X,Z))
     return (mul_matrix)
+
+X = 11
+Y = 5
+Z = 7
 
 pymatrix = matrix_out_py()
 memmatrix = matrix_out_mem()

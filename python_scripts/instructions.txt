@@ -50,9 +50,6 @@ CLAC
 MVAC, R
 INCR
 MOVREG, R2
-SUB
-SUB
-SUB
 MVAC, R2
 LODAC
 16'10
@@ -90,6 +87,9 @@ MOVREG, Z
 SUB (R)
 JMNZ 
 LOOP TWO \\ One output row not done
+MOVREG, R2
+MOVAR, STXZ ( Inc STXZ by 1)
+STOAC
 LODAC \\ check whether whole matrix is done
 16'12
 SFTL
@@ -102,9 +102,6 @@ MOVREG, STXZ
 SUB (R)
 JUMPZ
 LOOP FOUR \\ Whole Matrix is done
-MOVREG, R2
-MOVAR, STXZ ( Inc STXZ by 1)
-STOAC
 CLAC ( Added after removing RST, R3)
 MVAC, R
 MVAC, R1
@@ -147,7 +144,4 @@ MVAC, R1
 MVAC, R2
 JUMP 
 LOOP ONE
-MOVREG, R2 \\LOOP FOUR
-MOVAR, STXZ ( Inc STXZ by 3)
-STOAC
-ENDOP
+ENDOP \\LOOP FOUR

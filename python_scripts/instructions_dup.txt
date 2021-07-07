@@ -1,0 +1,147 @@
+INCR3
+LODAC \\Load X
+16'0
+MVAC, X
+LODAC \\Load Y
+16'1
+MVAC, Y
+LODAC \\Load Z
+16'2
+MVAC, Z
+LODAC \\Load M1 start -1
+16'3
+SFTL
+MVAC, R2
+LODAC \\Load M1 start -2
+16'4
+ADD, R2
+MVAC, STXY
+LODAC \\Load M2 start -1
+16'5
+SFTL
+MVAC, R2
+LODAC \\Load M2 start -2
+16'6
+ADD, R2
+MVAC, STYZ
+LODAC \\Load M3 start -1
+16'7
+SFTL
+MVAC, R2
+LODAC \\Load M1 start -2
+16'8
+ADD, R2
+MVAC, STXZ
+MOVREG, X \\Calculating M3 End
+MVAC, R1
+MOVREG, Z
+MUL
+MVAC, R2
+LODAC
+16'9
+MVAC, R1
+MOVREG, R2
+MUL
+MVAC, R2
+MOVREG, STXZ
+ADD, R2
+MVAC, R2
+CLAC
+MVAC, R
+INCR
+MOVREG, R2
+MVAC, R2
+LODAC
+16'10
+MVAC, R1
+MOVAR, R1
+MOVREG, R2
+STOAC
+CLAC
+MVAC, R1
+MVAC, R2
+MVAC, R
+MOVAR, STXY \\ ( Inc STXY by 1)  LOOP ONE
+LODACAR
+MVAC, R1
+MOVAR, STYZ 
+LODACAR
+MUL
+ADD, R2
+MVAC, R2 
+MOVREG, Z \\( inc STYZ by Z)
+MVAC, R1
+MOVREG, STYZ
+ADD, R1
+MVAC, STYZ
+INCR \\ check whether one output element is done
+MOVREG, Y
+SUB (R)
+JUMPZ \\ \\ One output element is done
+LOOP THREE
+JUMP \\ One Multiplication Done
+LOOP ONE
+MOVREG, R3 \\ LOOP THREE
+MVAC, R \\ Check whether one output row is done
+MOVREG, Z
+SUB (R)
+JMNZ 
+LOOP TWO \\ One output row not done
+MOVREG, R2
+MOVAR, STXZ ( Inc STXZ by 1)
+STOAC
+LODAC \\ check whether whole matrix is done
+16'12
+SFTL
+MVAC R
+LODAC
+16'11
+ADD, R
+MVAC, R
+MOVREG, STXZ
+SUB (R)
+JUMPZ
+LOOP FOUR \\ Whole Matrix is done
+CLAC ( Added after removing RST, R3)
+MVAC, R
+MVAC, R1
+MVAC, R2
+MVAC, R3
+INCR3
+LODAC \\Load M2 Start1
+16'5
+SFTL
+MVAC, R2
+LODAC \\Load M2 Start2
+16'6
+ADD, R2
+MVAC, STYZ
+CLAC
+MVAC, R2
+JUMP
+LOOP ONE
+MOVREG, R2 \\LOOP TWO
+MOVAR, STXZ ( Inc STXZ by 1)
+INCR3
+STOAC
+MOVREG, Y
+MVAC, R
+MOVREG, STXY \\Jump to next Output Element
+SUB (R)
+MVAC, STXY
+MOVREG, Z
+MVAC, R1 (R might need MUL)
+MOVREG, Y
+MUL
+MVAC, R
+MOVREG, STYZ
+SUB (R)
+INCAC
+MVAC, STYZ \\Set STYZ to next column, first element
+CLAC
+MVAC, R
+MVAC, R1
+MVAC, R2
+JUMP 
+LOOP ONE
+ENDOP \\LOOP FOUR

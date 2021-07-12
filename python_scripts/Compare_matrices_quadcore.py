@@ -47,9 +47,9 @@ def matrix_out_mem():
     mul_matrix = np.reshape(mul_matrix, (X,Z))
     return (mul_matrix)
     
-X =63
-Y = 62
-Z = 61
+X = 10
+Y = 7
+Z = 12
 
 XD = [int(X/4),int(X/4),int(X/4),int(X/4)]
 for i in range(int(X%4)):

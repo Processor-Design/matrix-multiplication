@@ -38,7 +38,7 @@ MOVREG, Z
 MUL
 MVAC, R2
 LODAC
-16'9
+16'9 \\ load Constant 3
 MVAC, R1
 MOVREG, R2
 MUL
@@ -88,7 +88,7 @@ SUB (R)
 JMNZ 
 LOOP TWO \\ One output row not done
 MOVREG, R2
-MOVAR, STXZ ( Inc STXZ by 1)
+MOVAR, STXZ ( Inc STXZ by 3)
 STOAC
 LODAC \\ check whether whole matrix is done
 16'12
@@ -121,7 +121,7 @@ MVAC, R2
 JUMP
 LOOP ONE
 MOVREG, R2 \\LOOP TWO
-MOVAR, STXZ ( Inc STXZ by 1)
+MOVAR, STXZ ( Inc STXZ by 3)
 INCR3
 STOAC
 MOVREG, Y

@@ -1,5 +1,6 @@
 import numpy as np
 np.random.seed(64)
+import time
 
 def matrix_out_py():
     matrix1 = np.random.randint(256, size=(X,Y))
@@ -46,15 +47,18 @@ def matrix_out_mem():
         mul_matrix.append(value)
     mul_matrix = np.reshape(mul_matrix, (X,Z))
     return (mul_matrix)
-X =63
-Y = 62
-Z = 61
+X =33
+Y = 32
+Z = 31
 
 XD = [int(X/4),int(X/4),int(X/4),int(X/4)]
 for i in range(int(X%4)):
     XD[i] += 1 
-
-pymatrix = matrix_out_py()
+start = time.process_time()
+for i in range(1000):
+    pymatrix = matrix_out_py()
+print( "Time taken to multiply using Numpy library is: ")
+print(time.process_time() - start)
 memmatrix = matrix_out_mem()
 
 print(pymatrix)

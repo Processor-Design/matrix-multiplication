@@ -18,34 +18,10 @@ wire end_process ;
 wire clock;
 reg begin_process ;
 wire [15:0] datain;
-reg rst;
 reg [9:0] process_switch_buffer = 10'd0;
 
-always @(posedge clock)
-begin
-    if (start_process )
-    begin
-        if (process_switch_buffer == 10'd10 )
-        begin
-            begin_process <=1;
-            rst <=0;
-        end
-        else
-        begin
-            process_switch_buffer <= process_switch_buffer + 10'd1;
-            begin_process <=0;
-            rst <= 1;
-        end
-    end 
-    else 
-    begin 
-        process_switch_buffer <= 10'd0;
-        begin_process <= 0;
-        rst <= 0;
-    end 
-end
 
-
+wire rst;
 
 processor processor1( .clock(clock),
  .dm_out(dm_out),
@@ -62,8 +38,9 @@ processor processor1( .clock(clock),
 state_controller State_controller_1 (
 .clock(clock),
 .process_finish (end_process),
-.process_ready (begin_process ),
+.start_process (start_process ),
 .status(status),
+.rst(rst),
 .g1(g1),
 .g2(g2),
 .g3(g3)

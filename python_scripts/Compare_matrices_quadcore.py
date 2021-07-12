@@ -46,6 +46,7 @@ def matrix_out_mem():
         mul_matrix.append(value)
     mul_matrix = np.reshape(mul_matrix, (X,Z))
     return (mul_matrix)
+    
 X =63
 Y = 62
 Z = 61
